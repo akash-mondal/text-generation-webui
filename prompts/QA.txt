@@ -1,4 +1,4 @@
-Common sense questions and answers
+Questions and concise and accurate answers.
 
-Question: 
-Factual answer:
+Question: <Put Your Question Here and leave the Factual Answer empty , Click on Generate and the LLM will answer the question for you>
+Factual answer: 

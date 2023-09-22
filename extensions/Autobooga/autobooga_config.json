@@ -1,0 +1,8 @@
+{
+    "searx_server": "enter the url to a searx server capable of json here",
+    "max_search_results": 5,
+    "max_text_length": 1500,
+    "upload_prompt": "Please summarize the following text, one paragraph at a time:",
+    "upload_position": "before",
+    "logging_enabled": 1
+}

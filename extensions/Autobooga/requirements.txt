@@ -1,0 +1,5 @@
+requests
+beautifulsoup4
+summarizer
+datetime
+PyPDF2

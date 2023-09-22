@@ -88,7 +88,7 @@ def custom_js():
 
 
 def ui():
-    with gr.Accordion("Character gallery", open=False, elem_id='gallery-extension'):
+    with gr.Accordion("Character gallery", elem_id='gallery-extension'):
         update = gr.Button("Refresh")
         gr.HTML(value="<style>" + generate_css() + "</style>")
         gallery = gr.Dataset(components=[gr.HTML(visible=False)],

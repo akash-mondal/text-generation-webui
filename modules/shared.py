@@ -1,11 +1,11 @@
 import argparse
-import sys
 from collections import OrderedDict
 from pathlib import Path
 
 import yaml
 
 from modules.logging_colors import logger
+
 
 # Model variables
 model = None
@@ -24,6 +24,7 @@ processing_message = '*Is typing...*'
 gradio = {}
 persistent_interface_state = {}
 need_restart = False
+session_is_loading = False
 
 # UI defaults
 settings = {
@@ -32,6 +33,7 @@ settings = {
     'start_with': '',
     'mode': 'chat',
     'chat_style': 'cai-chat',
+    'character': 'None',
     'prompt-default': 'QA',
     'prompt-notebook': 'QA',
     'preset': 'simple-1',
@@ -52,7 +54,9 @@ settings = {
     'skip_special_tokens': True,
     'stream': True,
     'name1': 'You',
-    'character': 'Assistant',
+    'name2': 'Assistant',
+    'context': 'This is a conversation with your Assistant. It is a computer program designed to help you with various tasks such as answering questions, providing recommendations, and helping with decision making. You can ask it anything you want and it will do its best to give you accurate and relevant information.',
+    'greeting': '',
     'instruction_template': 'Alpaca',
     'chat-instruct_command': 'Continue the chat dialogue below. Write a single reply for the character "<|character|>".\n\n<|prompt|>',
     'autoload_model': False,
@@ -183,11 +187,6 @@ parser.add_argument('--multimodal-pipeline', type=str, default=None, help='The m
 
 args = parser.parse_args()
 args_defaults = parser.parse_args([])
-provided_arguments = []
-for arg in sys.argv[1:]:
-    arg = arg.lstrip('-').replace('-', '_')
-    if hasattr(args, arg):
-        provided_arguments.append(arg)
 
 # Deprecation warnings
 for k in ['chat', 'notebook', 'no_stream']:

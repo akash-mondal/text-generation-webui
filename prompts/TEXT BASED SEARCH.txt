@@ -1,0 +1,5 @@
+Enable users to search within the input text for specific keywords or phrases, making it easier to locate information within lengthy texts.
+
+Keywords/Phrases: <ERASE AND PUT HERE>
+Input Text: <ERASE AND PUT HERE>
+SEARCH RESULTS: <ERASE THIS AND CLICK ON GENERATE>

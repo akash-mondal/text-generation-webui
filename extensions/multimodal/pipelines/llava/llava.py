@@ -56,13 +56,10 @@ class LLaVA_v0_Pipeline(AbstractMultimodalPipeline):
 
     @staticmethod
     def embed_tokens(input_ids: torch.Tensor) -> torch.Tensor:
-        for attr in ['', 'model', 'model.model', 'model.model.model']:
-            tmp = getattr(shared.model, attr, None) if attr != '' else shared.model
-            if tmp is not None and hasattr(tmp, 'embed_tokens'):
-                func = tmp.embed_tokens
-                break
+        if hasattr(shared.model.model, 'embed_tokens'):
+            func = shared.model.model.embed_tokens
         else:
-            raise ValueError('The embed_tokens method has not been found for this loader.')
+            func = shared.model.model.model.embed_tokens  # AutoGPTQ case
 
         return func(input_ids).to(shared.model.device, dtype=shared.model.dtype)
 

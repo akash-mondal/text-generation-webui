@@ -1,7 +1,6 @@
 import re
 from functools import partial
 
-import numpy as np
 import torch
 
 from modules import RoPE, shared
@@ -98,14 +97,8 @@ class LlamaCppModel:
 
         return self.model.tokenize(string)
 
-    def decode(self, ids):
-        return self.model.detokenize(ids).decode('utf-8')
-
-    def get_logits(self, tokens):
-        self.model.eval(tokens)
-        logits = self.model._scores
-        logits = np.expand_dims(logits, 0)  # batch dim is expected
-        return torch.tensor(logits, dtype=torch.float32)
+    def decode(self, tokens):
+        return self.model.detokenize(tokens)
 
     def generate(self, prompt, state, callback=None):
 
@@ -116,11 +109,11 @@ class LlamaCppModel:
         # Handle truncation
         prompt = self.encode(prompt)
         prompt = prompt[-get_max_prompt_length(state):]
-        prompt = self.decode(prompt)
+        prompt = self.decode(prompt).decode('utf-8')
 
         logit_processors = LogitsProcessorList()
         if state['ban_eos_token']:
-            logit_processors.append(partial(ban_eos_logits_processor, self.model.token_eos()))
+            logit_processors.append(partial(ban_eos_logits_processor, self.model.tokenizer.eos_token_id))
 
         if state['custom_token_bans']:
             to_ban = [int(x) for x in state['custom_token_bans'].split(',')]
